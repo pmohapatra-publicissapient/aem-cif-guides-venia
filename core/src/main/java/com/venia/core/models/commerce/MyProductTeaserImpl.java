@@ -25,6 +25,9 @@ import com.adobe.cq.commerce.core.components.models.common.Price;
 import com.adobe.cq.commerce.core.components.models.productteaser.ProductTeaser;
 import com.adobe.cq.commerce.core.components.models.retriever.AbstractProductRetriever;
 
+import com.shopify.graphql.support.SchemaViolationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.models.annotations.Model;
@@ -35,6 +38,8 @@ import org.apache.sling.models.annotations.via.ResourceSuperType;
 
 @Model(adaptables = SlingHttpServletRequest.class, adapters = MyProductTeaser.class, resourceType = MyProductTeaserImpl.RESOURCE_TYPE)
 public class MyProductTeaserImpl implements MyProductTeaser {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MyProductTeaserImpl.class);
 
     protected static final String RESOURCE_TYPE = "venia/components/commerce/productteaser";
 
@@ -49,6 +54,8 @@ public class MyProductTeaserImpl implements MyProductTeaser {
 
     private AbstractProductRetriever productRetriever;
 
+    private static final String AUTO_ID_ATTRIBUTE = "auto_id";
+
     @PostConstruct
     public void initModel() {
         productRetriever = productTeaser.getProductRetriever();
@@ -57,7 +64,7 @@ public class MyProductTeaserImpl implements MyProductTeaser {
             // Pass your custom partial query to the ProductRetriever. This class will
             // automatically take care of executing your query as soon
             // as you try to access any product property.
-            productRetriever.extendProductQueryWith(p -> p.createdAt());
+            productRetriever.extendProductQueryWith(p -> p.createdAt().addCustomSimpleField(AUTO_ID_ATTRIBUTE));
         }
     }
 
@@ -149,5 +156,17 @@ public class MyProductTeaserImpl implements MyProductTeaser {
     @Override
     public String getLinkTarget() {
         return productTeaser.getLinkTarget();
+    }
+
+    @Override
+    public String getAutoId() {
+        String auto_id = "";
+        try {
+            auto_id = productRetriever.fetchProduct().getAsString(AUTO_ID_ATTRIBUTE);
+        } catch (SchemaViolationError e) {
+            LOGGER.error("Error retrieving auto_id");
+        }
+        LOGGER.info("Product Auto ID ## {}", auto_id);
+        return auto_id;
     }
 }

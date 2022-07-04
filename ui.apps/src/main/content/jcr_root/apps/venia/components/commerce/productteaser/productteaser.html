@@ -32,6 +32,10 @@
             <span>${properties.text || 'New'}</span>
         </div>
 
+        <div data-sly-test="${product.autoId}" class="item__autoId">
+            <span>${product.autoId}</span>
+        </div>
+
         <sly data-sly-call="${imageTpl.actions @ product=product}" />
 
         <a class="item__name" href=${product.url}><span>${product.name}</span></a>
