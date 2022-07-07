@@ -64,7 +64,7 @@ public class MyProductTeaserImpl implements MyProductTeaser {
             // Pass your custom partial query to the ProductRetriever. This class will
             // automatically take care of executing your query as soon
             // as you try to access any product property.
-            productRetriever.extendProductQueryWith(p -> p.createdAt().addCustomSimpleField(AUTO_ID_ATTRIBUTE));
+            productRetriever.extendProductQueryWith(p -> p.createdAt().addCustomSimpleField(AUTO_ID_ATTRIBUTE).addCustomSimpleField("image_url1"));
         }
     }
 
@@ -168,5 +168,17 @@ public class MyProductTeaserImpl implements MyProductTeaser {
         }
         LOGGER.info("Product Auto ID ## {}", auto_id);
         return auto_id;
+    }
+    
+    @Override
+    public String getImage1() {
+        String image_url1 = "";
+        try {
+        	image_url1 = productRetriever.fetchProduct().getAsString("image_url1");
+        } catch (SchemaViolationError e) {
+            LOGGER.error("Error retrieving image_url1");
+        }
+        LOGGER.info("Product Auto ID ## {}", image_url1);
+        return image_url1;
     }
 }

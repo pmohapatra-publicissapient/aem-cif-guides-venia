@@ -24,4 +24,6 @@ public interface MyProductTeaser extends ProductTeaser {
     public Boolean isShowBadge();
 
     public String getAutoId();
+
+    public String getImage1();
 }
