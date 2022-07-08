@@ -56,6 +56,10 @@ public class MyProductTeaserImpl implements MyProductTeaser {
 
     private static final String AUTO_ID_ATTRIBUTE = "auto_id";
 
+    private static final String BODY_TYPE_ATTRIBUTE = "body_type";
+
+    private static final String IMAGE_ATTRIBUTE = "image_url";
+
     @PostConstruct
     public void initModel() {
         productRetriever = productTeaser.getProductRetriever();
@@ -64,7 +68,10 @@ public class MyProductTeaserImpl implements MyProductTeaser {
             // Pass your custom partial query to the ProductRetriever. This class will
             // automatically take care of executing your query as soon
             // as you try to access any product property.
-            productRetriever.extendProductQueryWith(p -> p.createdAt().addCustomSimpleField(AUTO_ID_ATTRIBUTE).addCustomSimpleField("image_url1"));
+            productRetriever.extendProductQueryWith(p -> p.createdAt()
+                    .addCustomSimpleField(AUTO_ID_ATTRIBUTE)
+                    .addCustomSimpleField(BODY_TYPE_ATTRIBUTE)
+                    .addCustomSimpleField(IMAGE_ATTRIBUTE));
         }
     }
 
@@ -92,7 +99,15 @@ public class MyProductTeaserImpl implements MyProductTeaser {
 
     @Override
     public String getImage() {
-        return productTeaser.getImage();
+        String image = "";
+        try {
+            image = productRetriever.fetchProduct().getAsString(IMAGE_ATTRIBUTE);
+        } catch (SchemaViolationError e) {
+            LOGGER.error("Error retrieving image_url");
+        }
+        image = null == image ? productTeaser.getImage() : image;
+        LOGGER.info("Product Body Type ## {}", image);
+        return image;
     }
 
     @Override
@@ -169,16 +184,16 @@ public class MyProductTeaserImpl implements MyProductTeaser {
         LOGGER.info("Product Auto ID ## {}", auto_id);
         return auto_id;
     }
-    
+
     @Override
-    public String getImage1() {
-        String image_url1 = "";
+    public String getBodyType() {
+        String body_type = "";
         try {
-        	image_url1 = productRetriever.fetchProduct().getAsString("image_url1");
+            body_type = productRetriever.fetchProduct().getAsString(BODY_TYPE_ATTRIBUTE);
         } catch (SchemaViolationError e) {
-            LOGGER.error("Error retrieving image_url1");
+            LOGGER.error("Error retrieving body_type");
         }
-        LOGGER.info("Product Auto ID ## {}", image_url1);
-        return image_url1;
+        LOGGER.info("Product Body Type ## {}", body_type);
+        return body_type;
     }
 }

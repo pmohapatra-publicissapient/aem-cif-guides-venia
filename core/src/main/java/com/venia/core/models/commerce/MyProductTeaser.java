@@ -25,5 +25,5 @@ public interface MyProductTeaser extends ProductTeaser {
 
     public String getAutoId();
 
-    public String getImage1();
+    public String getBodyType();
 }
