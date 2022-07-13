@@ -20,7 +20,7 @@ import Button from '@magento/venia-ui/lib/components/Button';
 import { useStyle } from '@magento/venia-ui/lib/classify';
 import defaultClasses from '@magento/venia-ui/lib/components/CartPage/PriceSummary/priceSummary.css';
 import DiscountSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary/discountSummary';
-import GiftCardSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary/giftCardSummary';
+//import GiftCardSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary/giftCardSummary';
 import ShippingSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary/shippingSummary';
 import TaxSummary from '@magento/venia-ui/lib/components/CartPage/PriceSummary/taxSummary';
 import { PriceSummaryFragment } from '@magento/peregrine/lib/talons/CartPage/PriceSummary/priceSummaryFragments.gql';
@@ -83,7 +83,7 @@ const PriceSummary = props => {
         return null;
     }
 
-    const { subtotal, total, discounts, giftCards, taxes, shipping } = flatData;
+    const { subtotal, total, discounts, taxes, shipping } = flatData;
 
     const isPriceUpdating = isUpdating || isLoading;
     const priceClass = isPriceUpdating ? classes.priceUpdating : classes.price;
@@ -123,13 +123,13 @@ const PriceSummary = props => {
                     }}
                     data={discounts}
                 />
-                <GiftCardSummary
+                {/* <GiftCardSummary
                     classes={{
                         lineItemLabel: classes.lineItemLabel,
                         price: priceClass
                     }}
                     data={giftCards}
-                />
+                /> */}
                 <TaxSummary
                     classes={{
                         lineItemLabel: classes.lineItemLabel,
