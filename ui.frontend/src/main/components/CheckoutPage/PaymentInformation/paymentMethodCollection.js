@@ -13,7 +13,9 @@
  ******************************************************************************/
 
 import Checkmo from '@magento/venia-sample-payments-checkmo/src/components/checkmo';
+import PurchaseOrder from '../../PurchaseOrder/purchaseorder';
 
 export default {
-    checkmo: Checkmo
+    // checkmo: Checkmo,
+    purchaseorder: 'PurchaseOrder'
 };

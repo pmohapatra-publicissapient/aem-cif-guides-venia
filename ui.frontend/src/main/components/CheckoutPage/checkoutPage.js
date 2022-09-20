@@ -171,11 +171,13 @@ const CheckoutPage = props => {
             );
 
         const formErrors = [];
-
+        console.log("guest checkout");
         const paymentMethods = Object.keys(payments);
+        console.log("payment code", paymentMethods);
 
         // If we have an implementation, or if this is a "zero" checkout,
         // we can allow checkout to proceed.
+        console.log("payment methods", availablePaymentMethods, code)
         const isPaymentAvailable = !!availablePaymentMethods.find(
             ({ code }) => code === 'free' || paymentMethods.includes(code)
         );
