@@ -177,7 +177,7 @@ const CheckoutPage = props => {
 
         // If we have an implementation, or if this is a "zero" checkout,
         // we can allow checkout to proceed.
-        console.log("payment methods", availablePaymentMethods, code)
+        console.log("payment methods", availablePaymentMethods)
         const isPaymentAvailable = !!availablePaymentMethods.find(
             ({ code }) => code === 'free' || paymentMethods.includes(code)
         );
