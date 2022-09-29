@@ -14,8 +14,10 @@
 
 import Checkmo from '@magento/venia-sample-payments-checkmo/src/components/checkmo';
 import PurchaseOrder from '../../PurchaseOrder/purchaseorder';
+import CashOnDelivery from '../../CashOnDelivery/cashondelivery';
 
 export default {
     checkmo: Checkmo,
-    purchaseorder: PurchaseOrder
+    purchaseorder: PurchaseOrder,
+    cashondelivery: CashOnDelivery
 };
